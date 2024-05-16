@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TiketDotComRedesign</string>
+
+    <string name="place_depart_name_1">TPE</string>
+    <string name="place_dest_name_1">DPS</string>
+    <string name="date_depart_name_1">21:45</string>
+    <string name="date_dest_name_1">09:45</string>
+    <string name="airline_1">Scoot</string>
+    <string name="price_1">2.273.488</string>
+
+
+
+</resources>
