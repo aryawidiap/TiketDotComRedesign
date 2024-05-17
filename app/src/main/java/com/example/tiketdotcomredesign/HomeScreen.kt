@@ -1,10 +1,14 @@
 package com.example.tiketdotcomredesign
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +38,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -49,25 +54,26 @@ import com.example.tiketdotcomredesign.model.FlightTicket
 
 @Composable
 fun HomeScreen(
-    onLogoutClick:() -> Unit
+    onSearchClick:() -> Unit
 ){
+    val (email, setEmail) = rememberSaveable {
+        mutableStateOf("")
+    }
+    val (password, setPassword) = rememberSaveable {
+        mutableStateOf("")
+    }
+    val context = LocalContext.current
     Column (
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        SearchBar(Modifier)
-        FlightTicketForm(modifier = Modifier)
-//        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-//            Text(text = "Home Screen")
-//        }
-        Button(onClick = onLogoutClick) {
-            Text(text = "Logout")
-        }
-
+    ){
+        SearchBar(modifier = Modifier)
+        FindTicketForm(onSearchClick = onSearchClick)
     }
+
 }
 
 @Composable
@@ -85,175 +91,127 @@ fun SearchBar(
         visualTransformation = PasswordVisualTransformation()
     )
 }
-
-@Preview(showBackground=true)
-@Composable
-fun FlightTicketForm(
-    modifier: Modifier = Modifier
-){
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(15.dp),
-    ) {
-        LazyColumn(modifier = modifier) {
-            item {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "Cari Tiket Pesawat",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            item {
-                Column(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ){
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(end = 10.dp),
-
-                        ) {
-                            Row(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                            ){
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_flight_takeoff_24),
-                                    contentDescription = "Localized description"
-                                )
-                                Text(
-                                    text = "Taipei",
-                                    modifier = Modifier,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                            Row(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                            ){
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_flight_land_24),
-                                    contentDescription = "Localized description"
-                                )
-                                Text(
-                                    text = "Denpasar-Bali",
-                                    modifier = Modifier,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
-                    }
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.DateRange,
-                            contentDescription = "Localized description"
-                        )
-                        Text(
-                            text = "Kam, 27 Jun",
-                            modifier = Modifier,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Person,
-                            contentDescription = "Localized description"
-                        )
-                        Text(
-                            text = "1 penumpang, Ekonomi",
-                            modifier = Modifier,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-
-                }
-            }
-
-//            Divider(color = Color.Blue, thickness = 1.dp)
-//            Text(
-//                text = "Tampilkan detail",
-//                modifier = Modifier.padding(16.dp),
-//                style = MaterialTheme.typography.labelLarge
-//            )
-
-        }
-    }
-//    Column {
-//        Row {
-//            Image(
-//                painter = painterResource(
-//                    id = R.drawable.google_logo
-//                ),
-//                contentDescription = "",
-//                modifier = Modifier.size(200.dp)
-//            )
-//            Row {
-//                Text(text = departureCity)
-//                Text(text = "TPE")
-//            }
-//        }
-//        Row {
-//            Image(
-//                painter = painterResource(
-//                    id = R.drawable.google_logo
-//                ),
-//                contentDescription = "",
-//                modifier = Modifier.size(200.dp)
-//            )
-//            Row {
-//                Text(text = destinationCity)
-//                Text(text = "TPE")
-//            }
-//        }
-//    }
-//
-//    Column {
-//        Row {
-//            Image(
-//                painter = painterResource(
-//                    id = R.drawable.google_logo
-//                ),
-//                contentDescription = "",
-//                modifier = Modifier.size(200.dp)
-//            )
-//            Row {
-//                Text(text = departureCity)
-//                Text(text = "TPE")
-//            }
-//        }
-//        Row {
-//            Image(
-//                painter = painterResource(
-//                    id = R.drawable.google_logo
-//                ),
-//                contentDescription = "",
-//                modifier = Modifier.size(200.dp)
-//            )
-//            Row {
-//                Text(text = destinationCity)
-//                Text(text = "TPE")
-//            }
-//        }
-//    }
+fun onClick() {
+    TODO("Not yet implemented")
 }
 
 
+@Composable
+fun FindTicketForm(
+    onSearchClick:() -> Unit
+){
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp),
+    ) {
+        Column (modifier = Modifier) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp)
+                        .clip(shape = RoundedCornerShape(20.dp))
+                        .background(Color(0xFFDDEAFF))
+                        .padding(20.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(end = 10.dp),
+                        ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_flight_takeoff_24),
+                                contentDescription = "Localized description"
+                            )
+                            Text(
+                                text = "Taipei",
+                                modifier = Modifier,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        Divider()
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_flight_land_24),
+                                contentDescription = "Localized description"
+                            )
+                            Text(
+                                text = "Denpasar-Bali",
+                                modifier = Modifier,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp)
+                        .clip(shape = RoundedCornerShape(20.dp))
+                        .background(Color(0xFFDDEAFF))
+                        .padding(20.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.DateRange,
+                        contentDescription = "Localized description"
+                    )
+                    Text(
+                        text = "Kam, 27 Jun",
+                        modifier = Modifier,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp)
+                        .clip(shape = RoundedCornerShape(20.dp))
+                        .background(Color(0xFFDDEAFF))
+                        .padding(20.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = "Localized description"
+                    )
+                    Text(
+                        text = "1 penumpang, Ekonomi",
+                        modifier = Modifier,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = onSearchClick
+                    ) {
+                        Text(text = "Cari Tiket")
+                    }
+                }
+
+            }
+        }
+    }
+}
+@Preview
+@Composable
+fun FindTicketFormPreview(
+){
+    FindTicketForm(onSearchClick = { onClick() })
+}

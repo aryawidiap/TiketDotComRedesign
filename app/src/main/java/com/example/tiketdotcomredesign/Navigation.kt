@@ -29,9 +29,9 @@ fun MyNavigation(navHostController: NavHostController){
         }
         composable(route = Route.HomeScreen().name){
             HomeScreen(
-                onLogoutClick = {
+                onSearchClick = {
                     navHostController.navigate(
-                        Route.LoginScreen().name
+                        Route.SearchFlightResultScreen().name
                     )
                 }
             )
